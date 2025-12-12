@@ -1,0 +1,8 @@
+# 图片品牌检查工具依赖
+# tkinter 是 Python 标准库，无需安装
+# unicodedata 是 Python 标准库，无需安装
+
+# 打包成独立应用所需的依赖
+pyinstaller>=5.13.0
+Pillow>=9.0.0
+
