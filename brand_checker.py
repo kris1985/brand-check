@@ -107,7 +107,7 @@ class BrandCheckerApp:
         directory = filedialog.askdirectory(title="选择品牌根目录")
         if directory:
             self.brand_dir = directory
-            self.brand_dir_label.config(text=directory, foreground="white")
+            self.brand_dir_label.config(text=directory, foreground="black")
             self.log(f"已选择品牌目录: {directory}")
             # 清空之前的品牌列表
             self.brands = set()
@@ -117,7 +117,7 @@ class BrandCheckerApp:
         directory = filedialog.askdirectory(title="选择图片根目录")
         if directory:
             self.image_dir = directory
-            self.image_dir_label.config(text=directory, foreground="white")
+            self.image_dir_label.config(text=directory, foreground="black")
             self.log(f"已选择图片目录: {directory}")
             # 如果品牌目录和图片目录都已选择，启用开始检查按钮
             if self.brand_dir and self.image_dir:
@@ -145,11 +145,13 @@ class BrandCheckerApp:
             if not brand_path.exists():
                 return False
                 
-            # 获取所有子目录名称作为品牌名（不输出日志）
-            for item in brand_path.iterdir():
-                if item.is_dir():
-                    brand_name = item.name
-                    self.brands.add(brand_name)
+            # 仅识别第三级目录为品牌名
+            for second_level in brand_path.iterdir():
+                if second_level.is_dir():
+                    for third_level in second_level.iterdir():
+                        if third_level.is_dir():
+                            brand_name = third_level.name
+                            self.brands.add(brand_name)
                     
             # 创建标准化品牌名映射（用于快速查找）
             self.normalized_brands = {}
